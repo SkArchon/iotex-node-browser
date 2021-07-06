@@ -15,8 +15,10 @@ export class MongoService {
     private readonly web3Service: Web3Service
   ) {}
 
-  async validateAndExtractResponse({ signedResult, signedData, rawData }) {
-    if(!signedResult || !signedData || !rawData) {
+  async validateAndGetUser(authorizationString: string) {
+    const { signedResult, signedData } = JSON.parse(authorizationString);
+    
+    if(!signedResult || !signedData) {
         throw "Invalid Params Passed";
     }
 
@@ -28,7 +30,7 @@ export class MongoService {
       throw `The user account ${userAddress} was not found`;
     }
 
-    return { user, requestBody: rawData };
+    return user;
   }
 
   // async validateVerisonAndSave(model: Model<any>, saveEntry) {

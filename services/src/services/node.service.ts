@@ -12,11 +12,14 @@ import { SignedRequest } from 'src/models/signed-request';
 import { from, of, throwError } from 'rxjs';
 import { catchError, concatMap, delay, filter, retry, retryWhen, switchMap, take, tap } from 'rxjs/operators';
 import { NodeProcessedEntry, NodeProcessedEntryDocument } from 'src/schemas/node-processed-entry.schema';
-import { RECAPTCHA_SECRET } from 'src/app.constants';
+import { CONTRACT_ADDRESS, IOTEX_ACCOUNT_PRIVATE_KEY, IOTEX_ADDRESS, RECAPTCHA_SECRET } from 'src/app.constants';
 import * as _ from 'lodash';
 import { IpLocationService } from './ip-location.service';
 import { NodeRequestDetailsProcessorService } from './node-request-details-processor.service';
 import { logger } from 'handlebars';
+const Provider = require('@truffle/hdwallet-provider');
+import * as IotexApiGatewayBadge from '../contracts/IotexApiGatewayBadge.json';
+import Antenna from "iotex-antenna";
 
 @Injectable()
 export class NodeService {
@@ -42,8 +45,8 @@ export class NodeService {
     }
   }
 
-  async createOrUpdateNode(nodeRequest: any) {
-    const { user, requestBody } = await this.mongoService.validateAndExtractResponse(nodeRequest);
+  async createOrUpdateNode(requestBody: any, authorization: string = "{}") {
+    const user = await this.mongoService.validateAndGetUser(authorization);
     await this.validateRecaptcha(requestBody.token);
 
     const existingNode = (requestBody.id)
@@ -52,7 +55,6 @@ export class NodeService {
     
     await this.createNodeInTransaction(requestBody, existingNode, user.userAddress);
   }
-
   
   private async createNodeInTransaction(requestBody, existingNode, userAddress) {
     const session = await this.nodeEntry.db.startSession();
@@ -133,8 +135,8 @@ export class NodeService {
     }
   }
 
-  async findById(searchCriteriaRequest: SignedRequest<any>, nodeId: string) {
-    const { user } = await this.mongoService.validateAndExtractResponse(searchCriteriaRequest);
+  async findById(nodeId: string, authorization: string = "{}") {
+    const user = await this.mongoService.validateAndGetUser(authorization);
     const node = await this.nodeEntry.findOne({ 'id': nodeId }).exec();
     
     if(!user.isAdmin && node.nodeOwnerAddress !== user.userAddress) {
@@ -143,10 +145,10 @@ export class NodeService {
     return node;
   }
   
-  async findAll(searchCriteriaRequest: SignedRequest<any>) {
-    const { user, requestBody } = await this.mongoService.validateAndExtractResponse(searchCriteriaRequest);
+  async findAll(requestBody: any, authorization: string = "{}") {
+    const user = await this.mongoService.validateAndGetUser(authorization);
 
-    if (!user.isAdmin && requestBody.userAddress !== user.userAddress) {
+    if (!user.isAdmin) {
       throw "Normal users are not allowed to view pending requests";
     }
 
@@ -175,8 +177,8 @@ export class NodeService {
       : this.nodeEntry.find();
   }
 
-  async processNodeApproval(approveRequest: SignedRequest<any>, approvalStatus: "approve" | "reject") {
-    const { user, requestBody } = await this.mongoService.validateAndExtractResponse(approveRequest);
+  async processNodeApproval(requestBody: any, approvalStatus: "approve" | "reject", authorization: string = "{}") {
+    const user = await this.mongoService.validateAndGetUser(authorization);
 
     if(!user.isAdmin) {
       throw "User needs to be an admin";
@@ -224,6 +226,29 @@ export class NodeService {
     );
     
     return await saveObs$.toPromise();
+  }
+
+  public async testSomething() {
+    const provider = new Provider(IOTEX_ACCOUNT_PRIVATE_KEY, IOTEX_ADDRESS); 
+    const web3 = new Web3(provider);
+
+    const account = web3.eth.accounts.privateKeyToAccount(IOTEX_ACCOUNT_PRIVATE_KEY);
+    const gatewayBadgeContract = new web3.eth.Contract(IotexApiGatewayBadge.abi, CONTRACT_ADDRESS);
+
+    const responseUpdate = await gatewayBadgeContract
+      .methods
+      .mintBadge('abcde', account.address)
+      .send( { from: account.address });
+
+    console.log(responseUpdate);
+
+    const response = await gatewayBadgeContract
+      .methods
+      .getDetails()
+      .call({ from: account.address });
+
+    console.log(response);
+    return response;
   }
 
 }

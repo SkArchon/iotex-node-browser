@@ -28,8 +28,7 @@ const NetworkManagementEntry = ({result, userAccount, showApprove, showEdit }) =
       : 'rejected';
       
       try {
-        const body = await ApiHelper.signAndProcessRequestData({ nodeId }, userAccount.userAddress);
-        await axios.post(`/node/${approveMethod}`, body);
+        await axios.post(`/node/${approveMethod}`, { nodeId });
         
         updateStatus(approveMethodAsMessage);
         openSuccessSnackbar(`The node was successfully ${approveMethodAsMessage}`);
@@ -95,15 +94,15 @@ const NetworkManagementEntry = ({result, userAccount, showApprove, showEdit }) =
         { (showApprove && userAccount.isAdmin) && 
           <>
             {(currentStatus !== 'rejected') &&
-              <button className="Button Button--outline-primary" onClick={() => approve("reject", result.id)}>Reject</button>
+              <button className="Button Button--outline-primary btn btn-outline-primary" onClick={() => approve("reject", result.id)}>Reject</button>
             }
             {(currentStatus !== 'approved') &&
-              <button className="Button Button--primary" onClick={() => approve("approve", result.id)}>Approve</button>
+              <button className="Button Button--primary btn btn-primary" onClick={() => approve("approve", result.id)}>Approve</button>
             }
           </>
         }
         { showEdit && userAccount.userAddress === result.nodeOwnerAddress &&
-          <button className="Button Button--primary" onClick={() => editNode(result.id)}>Edit</button>
+          <button className="Button Button--primary btn btn-primary" onClick={() => editNode(result.id)}>Edit</button>
         }
         </div>
       </div>

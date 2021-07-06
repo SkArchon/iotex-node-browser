@@ -9,3 +9,31 @@ $brand-color: #ade6e6;
 $primary-dark: #262626;
 $widget-padding: 15px;
 $primary-dark: #16325c;
+
+$local-grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+
+
+
+@mixin for-phone-only {
+  @media (max-width: 599px) { @content; }
+}
+
+@mixin local-media-breakpoint-down($size) {
+  @media (max-width: map-get($local-grid-breakpoints, $size) - 0.2px) {
+    @content
+  }
+}
+
+
+
+$form-padding: $widget-padding * 2;
+$main-box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+$optional-shadow: 0px 7px 35px 15px rgb(63 59 74 / 8%);
+

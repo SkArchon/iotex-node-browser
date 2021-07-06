@@ -5,39 +5,30 @@ import { NodeProcessedEntry, NodeProcessedEntryDocument } from 'src/schemas/node
 import { MailService } from './mail.service';
 import { BehaviorSubject, EMPTY, forkJoin, from, interval, of, throwError, timer } from 'rxjs';
 import { catchError, concatMap, delay, filter, map, mergeMap, retryWhen, startWith, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
-import { GrpcPromiseUtil } from 'src/util/grpc-promise.util';
 import * as _ from 'lodash';
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
+import { BadgesService } from './badges.service';
+import Antenna from "iotex-antenna";
+const {performance} = require('perf_hooks');
 
 @Injectable()
 export class NodeRequestDetailsProcessorService {
 
-  private readonly PROTO_DIR = __dirname + '/../grpc';
-  private readonly API_PROTO_PATH = this.PROTO_DIR + '/proto/api/api.proto';
   private readonly BLOCK_OUTDATED_BUFFER = 100;
-  private readonly DEFAULT_PROTO_CONFIGS = {
-    keepCase: true,
-    longs: String,
-    enums: String,
-    defaults: true,
-    oneofs: true,
-  }
 
   private readonly logger = new Logger(NodeRequestDetailsProcessorService.name);
 
   private currentBlockHeight$ = new BehaviorSubject<number>(0);
 
-  private iotexapi;
-
   constructor(
     @InjectModel(NodeProcessedEntry.name) private nodeProcessedEntry: Model<NodeProcessedEntryDocument>,
     private httpService: HttpService,
     private mailService: MailService,
+    private badgesService: BadgesService
   ) {}
 
   onApplicationBootstrap() {
-    this.bootstrapApplication();
     this.setBlockHeightOnLoad();
   }
 
@@ -68,27 +59,24 @@ export class NodeRequestDetailsProcessorService {
     );
   }
 
-  private getIsSecure(address: string) {
-    const protocolIncluded = address.includes('://');
-    if(!protocolIncluded) {
-      const useSecure = address.includes(':443');
-      return [useSecure, address];
-    }
-    const addressAsUrl = new URL(address);
-    const useSecure = addressAsUrl.protocol == 'https:';
-    const urlWithoutProtocol = address.slice((addressAsUrl.protocol + '//').length);
-    return [useSecure, urlWithoutProtocol];
-  }
-
   private createRequestToApiNode(address: string) {
     try {
-      const [useSecure, useAddress] = this.getIsSecure(address);
-      const client = (useSecure)
-        ? new this.iotexapi.APIService(useAddress, grpc.credentials.createSsl())
-        : new this.iotexapi.APIService(useAddress, grpc.credentials.createInsecure());
+      const antenna = new Antenna(address);
 
-      const serverMeta$ = from(GrpcPromiseUtil.getServerMeta(client));
-      const chainMeta$ = from(GrpcPromiseUtil.getChainMeta(client));
+      const processMeta = (response) => {
+        const responseBody = (response.chainMeta)
+          ? response.chainMeta
+          : response.serverMeta;
+
+        const t2 = performance.now();
+        const requestDuration = t2 - t1;
+        return { ...responseBody, requestDuration: requestDuration };
+      };
+
+      const t1 = performance.now();
+      const chainMeta$ = from(antenna.iotx.getChainMeta({})).pipe(map(processMeta));
+      const serverMeta$ = from(antenna.iotx.getServerMeta({})).pipe(map(processMeta));
+
       return forkJoin([serverMeta$, chainMeta$]);
     }
     catch(e) {
@@ -147,6 +135,8 @@ export class NodeRequestDetailsProcessorService {
           if(saveCall && error) {
               return of(false);
           }
+          
+          this.badgesService.processBadges(saveEntry);
           return from(saveEntry.save()).pipe(map(_ => true));
         }),
       );
@@ -154,9 +144,9 @@ export class NodeRequestDetailsProcessorService {
   }
 
   private updateOnSuccessfulPingOfApiNode(existingDoc, saveEntry, currentTimestamp, serverMeta, chainMeta, currentBlockHeight, isPrimary) {
-    saveEntry.packageVersion = serverMeta.response.serverMeta.packageVersion;
-    saveEntry.packageCommitID = serverMeta.response.serverMeta.packageCommitID;
-    saveEntry.blockHeight = chainMeta.response.chainMeta.height;
+    saveEntry.packageVersion = serverMeta.packageVersion;
+    saveEntry.packageCommitID = serverMeta.packageCommitID;
+    saveEntry.blockHeight = chainMeta.height;
     saveEntry.lastKnownUpTimestamp = currentTimestamp;
 
     saveEntry.outdated = (!isPrimary)
@@ -196,12 +186,4 @@ export class NodeRequestDetailsProcessorService {
     );
   }
 
-  private bootstrapApplication() {
-    const protoConfig = {
-      includeDirs: [this.PROTO_DIR, 'proto'],
-      ...this.DEFAULT_PROTO_CONFIGS
-    };
-    const packageResult = protoLoader.loadSync(this.API_PROTO_PATH, protoConfig);
-    this.iotexapi = grpc.loadPackageDefinition(packageResult).iotexapi;
-  }
 }

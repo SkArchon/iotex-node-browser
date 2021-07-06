@@ -3,3 +3,7 @@ export const RECAPTCHA_SECRET = "6LdEHEYbAAAAABWSDByGo3FGeEPB1ZLS5V433X4m";
 
 export const IPSTACK_KEY = "1af9a255c7e94ae4fb2fb7be2f49087e";
 export const IPGEOLOCATION_KEY = "78f67f5a87814f53bb79a20e2343c69c";
+export const CONTRACT_ADDRESS = "0x22753F94Cd6EcA31B48243f18De731e4FCb91E4D";
+export const IOTEX_ADDRESS = "https://babel-api.testnet.iotex.io";
+export const IOTEX_ACCOUNT_PRIVATE_KEY = "1225c2ef4c20914dfcb88041d3c7ce36cb528712f4bebcf5f242ae23e74235fc";
+

@@ -6,8 +6,6 @@ import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
 import { DocumentationLayout, DocumentationOptionsContext } from '../../components/layouts/documentationLayout';
 import md from 'raw-loader!./md/getting-started/all.md';
-import { DocumentationSwitcher } from '../../components/documentation-switcher';
-import NetworkEntry from '../../components/network-entry';
 
 const GettingStarted = () => {
   const { deploymentType, network, nodeType, setDeploymentType, setNetwork, setNodeType } = useContext(DocumentationOptionsContext);
@@ -79,7 +77,7 @@ const GettingStarted = () => {
         </Col>
       </Row>
       <div>
-        <button className="Button Button--submit-node Button--primary"
+        <button className="Button Button--submit-node Button--primary btn btn-primary"
         onClick={() => { router.push('/documentation/initial-setup') }}>
           Continue
         </button>

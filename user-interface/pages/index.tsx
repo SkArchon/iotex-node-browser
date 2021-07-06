@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/Home.module.scss'
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -8,7 +7,6 @@ import axios from "axios";
 import { Col, Container, Row } from 'react-bootstrap';
 import { usePersistentStorage } from '../hooks/use-local-storage.hooks';
 import { useRouter } from 'next/router';
-
 
 export default function Home() {
   const router = useRouter();

@@ -1,17 +1,17 @@
 import { HttpService, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { BehaviorSubject, EMPTY, forkJoin, from, interval, of, throwError, timer } from 'rxjs';
+import { from, interval, of, throwError, timer } from 'rxjs';
 import { catchError, concatMap, delay, filter, map, mergeMap, retryWhen, startWith, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { NodeEntry, NodeEntryDocument } from 'src/schemas/node-entry.schema';
 import { NodeProcessedEntry } from 'src/schemas/node-processed-entry.schema';
-import { GrpcPromiseUtil } from 'src/util/grpc-promise.util';
 
 import * as _ from 'lodash';
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import { MailService } from './mail.service';
 import { NodeRequestDetailsProcessorService } from './node-request-details-processor.service';
+import { BadgesService } from './badges.service';
 
 @Injectable()
 export class SchedulerService {
@@ -23,7 +23,7 @@ export class SchedulerService {
     private nodeRequestDetailsProcessorService: NodeRequestDetailsProcessorService,
     private mailService: MailService,
     @InjectModel(NodeEntry.name) private nodeEntry: Model<NodeEntryDocument>,
-    @InjectModel(NodeProcessedEntry.name) private nodeProcessedEntry: Model<NodeProcessedEntry>
+    @InjectModel(NodeProcessedEntry.name) private nodeProcessedEntry: Model<NodeProcessedEntry>,
   ) {}
 
   onApplicationBootstrap() {

@@ -1,0 +1,207 @@
+.Node-Submission-Container {
+    border-radius: $widget-border-radius;
+    box-shadow: $widget-box-shadow;
+    padding: $form-padding;  
+
+    &__New-Header {
+        margin-bottom: 0px;
+    }
+
+    &__Setup-Link {
+        display: block;
+        margin-bottom: 20px;
+        color: darken($brand-color, 40%);
+    }
+}
+
+.Node-Submission-Wrapper {
+    margin-top: 20px;
+}
+
+.Management-Page {
+    margin: 0 auto;
+    width: 70%;
+
+    @include media-breakpoint-down(sm) {
+        width: 100%;
+    }
+}
+
+.Center-Content {
+    margin: 0 auto;
+    max-width: map-get($grid-breakpoints, "sm");
+
+    &--node-form {
+        max-width: map-get($grid-breakpoints, "md");
+    }
+}
+
+.Network-Management-Entry {
+  border-radius: $widget-border-radius;
+  box-shadow: $widget-box-shadow;
+  padding: $widget-padding;
+  margin-bottom: 35px;
+
+  &__highlights {
+      color: $white;
+      background: $primary-dark;
+      margin: (-$widget-padding) (-$widget-padding) 0px (-$widget-padding);
+      padding: $widget-padding;
+      display: flex;
+      border-top-left-radius: $widget-border-radius;
+      border-top-right-radius: $widget-border-radius;
+
+      @include media-breakpoint-down(sm) {
+          flex-direction: column;
+      }
+
+      &__main {
+          flex: 2;
+          display: flex;
+          align-items: center;
+
+          @include media-breakpoint-down(sm) {
+              text-align: center;
+              flex-direction: row;
+              justify-content: space-around;
+          }
+
+          &__copy {
+              margin-right: 15px;
+              font-size: 20px;
+              @include media-breakpoint-down(sm) {
+                  display: block;
+                  position: absolute;
+                  right: 25px;
+                  top: 5px;
+                  margin-right: 0px;
+              }
+          }
+
+          &__details {
+              &__name {
+                  font-size: 16px;
+                  margin-bottom: -5px;
+                  letter-spacing: 1px;
+              }
+
+              &__address {
+                  color: $brand-color;
+                  font-weight: 500;
+                  font-size: 18px;
+              }
+          }
+      }
+
+      &__more {
+          flex: 1;
+          text-align: right;
+          display: flex;
+          flex-direction: column;
+
+          @include media-breakpoint-down(sm) {
+              text-align: center;
+              flex-direction: row;
+              justify-content: space-around;
+          }
+  
+
+          &__label {
+              font-size: 12px;
+              color: #eaeaea;
+          }
+
+          &__value {
+              font-weight: 600;
+          }
+      }
+  }
+
+  &__more {
+      display: flex;
+      align-items: baseline;
+
+      @include media-breakpoint-down(sm) {
+          text-align: center;
+          flex-direction: column;
+      }
+
+      &__details {
+          flex: 2;
+          margin-top: 10px;
+          align-items: center;
+
+          &__version {
+              margin-bottom: 10px;
+          }
+
+          &__social {
+              .Icon a {
+                  color: #4288d2;
+              
+                  :hover {
+                      color: #3ce9a1;
+                  }
+              }
+              
+              > div {
+                  margin-right: 5px;
+              }
+
+              @include media-breakpoint-down(sm) {
+                  margin-bottom: 10px;
+              }
+          }
+
+          &__label {
+              font-size: 12px;
+          }
+          &__value {
+              font-weight: 500;
+          }
+      }
+
+      &__badges {
+          flex: 2;
+          text-align: right;
+          align-items: center;
+
+          > button {
+              margin-left: 5px;
+          }
+          @include media-breakpoint-down(sm) {
+              text-align: center;
+              width: 100%;
+
+              > button {
+                  width: 100%;
+                  margin-right: 0px;
+                  margin-top: 5px;
+              }
+          }
+      }
+  }
+}
+
+.Nodes-Search-Criteria {
+    margin-bottom: 30px;
+}
+
+.Nodes-Owned-List {
+    margin-top: 30px;
+}
+
+.Sub-Top-Bar {
+    background: #ffffff;
+    margin-top: -20px;
+    padding: 4px 0px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid #e6e7e8;
+}
+
+.recaptcha-wrapper > div > div {
+    display: flex;
+    place-content: center;
+}
+
+

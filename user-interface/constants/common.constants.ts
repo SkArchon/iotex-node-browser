@@ -1,3 +1,5 @@
+
+
 export const SUCCESS_SNACKBAR = {
   style: {
     backgroundColor: '#00dcb7',

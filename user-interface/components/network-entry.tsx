@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 import React from 'react'
 import ReactCountryFlag from "react-country-flag"
+import { BadgeMapping } from '../constants/badge.enum'
 
 const NetworkEntry = ({result}) => {
   const indicatorClass = classNames({
@@ -73,6 +74,10 @@ const NetworkEntry = ({result}) => {
           </div>
         </div>
         <div className="Network-Entry__more__social">
+          { result.badges.map(result => (
+              <span className="badge" key={result}>{BadgeMapping[result]}</span>
+            )
+          )}
         </div>
       </div>
     </div>

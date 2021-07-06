@@ -1,0 +1,16 @@
+
+.User-Address-Button .dropdown-toggle {
+  padding: 5.5px 15px 5.5px 15px;
+  font-size: 12px;
+}
+
+.Top-Bar {
+  background: #eeeff5;
+  margin-bottom: 20px;
+}
+
+.navbar-brand {
+  @include media-breakpoint-down(sm) {
+      display: none;
+  }
+}   

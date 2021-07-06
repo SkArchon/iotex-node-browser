@@ -1,0 +1,49 @@
+.Form-Field {
+  margin-bottom: 15px;
+
+  &__label {
+      font-size: 12px;
+      margin-bottom: 2px;
+      display: block;
+      color: #4e4e4e;
+      letter-spacing: 0.5px;
+  }
+
+  &__field {
+      width: 100%;
+      padding: 5px 10px;
+      background: #efefef;
+      border: none;
+      height: 38px;
+      font-size: 12px;
+  }
+
+  &__custom-field {
+      > button {
+          width: 100%;
+          padding: 0px 5px;
+          border: 1px solid #d8d8d8;
+          border-radius: 0px;
+          font-size: 14px !important;
+      }
+  }
+
+  &__error {
+      display: block;
+      font-size: 12px;
+      color: rgb(245, 73, 73);
+  }
+
+  &__grouping-header {
+      font-size: 14px;
+      margin-bottom: 2px;
+      display: block;
+      color: #4e4e4e;
+      letter-spacing: 1.5px;
+
+      &--top-padding {
+          margin-top: 15px;
+      }
+  }
+
+}

@@ -59,8 +59,7 @@ const SubmitNodePage = () => {
   if(existingNode) {
     useEffect(() => {
       (async function fetchData() {
-        const body = ApiHelper.getSignedPayload(userAccount.loginSignedData, userAccount.loginSignedResult, {});
-        const { data } = await axios.post(`/node/search/${router.query.id}`, body);
+        const { data } = await axios.post(`/node/search/${router.query.id}`, {});
         setInitialValues(data);
       })()
     }, [router.query.id]);
@@ -71,8 +70,7 @@ const SubmitNodePage = () => {
       const token = await reRef.current.getValue();
       const processedData = { ...data, token: token };
       
-      const body = await ApiHelper.signAndProcessRequestData(processedData, userAccount.userAddress);
-      const result = await axios.post("/node", body);
+      await axios.post("/node", processedData);
       openSuccessSnackbar("Successfully submitted the node details");
       router.push("my-nodes");
     }

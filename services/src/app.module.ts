@@ -18,6 +18,8 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { MailService } from './services/mail.service';
 import { IpLocationService } from './services/ip-location.service';
 import { NodeRequestDetailsProcessorService } from './services/node-request-details-processor.service';
+import { NodeBadgeMetadata, NodeBadgeMetadataSchema } from './schemas/node-badge-metadata';
+import { BadgesService } from './services/badges.service';
 
 const MONGODB_URL = "mongodb+srv://newuser:Password1234@cluster0.stslp.mongodb.net/iotex-nodes?retryWrites=true&w=majority";
 
@@ -40,7 +42,13 @@ const MONGODB_URL = "mongodb+srv://newuser:Password1234@cluster0.stslp.mongodb.n
         name: NodeProcessedEntry.name,
         schema: NodeProcessedEntrySchema,
         collection: 'node_processed_entries'
+      },
+      {
+        name: NodeBadgeMetadata.name,
+        schema: NodeBadgeMetadataSchema,
+        collection: 'node_badge_metadata'
       }
+      
     ]),
     MailerModule.forRoot({
       transport: {
@@ -73,7 +81,8 @@ const MONGODB_URL = "mongodb+srv://newuser:Password1234@cluster0.stslp.mongodb.n
     NodeProcessedService,
     MailService,
     IpLocationService,
-    NodeRequestDetailsProcessorService
+    NodeRequestDetailsProcessorService,
+    BadgesService
   ],
 })
 export class AppModule {}

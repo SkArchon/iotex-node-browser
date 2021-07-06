@@ -43,11 +43,9 @@ const MyNodes = () => {
       <div>
         { nodeEntries.map((result: any) => {
           return (
-            <>
-              <div key={result.id}>
-                <NetworkManagementEntry result={result} userAccount={userAccount} showApprove={false} showEdit={true} />
-              </div>
-            </>
+            <div key={result.id}>
+              <NetworkManagementEntry result={result} userAccount={userAccount} showApprove={false} showEdit={true} />
+            </div>
           )
         })}
         {!error && !loading && nodeEntries.length == 0 && 

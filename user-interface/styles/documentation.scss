@@ -1,0 +1,142 @@
+.Setup-Page {
+  margin: 0 auto;
+
+  &__select {
+      margin-bottom: 20px;
+  }
+
+  &__select-wrapper {
+      margin-right: 20px;
+  }
+
+
+  &__navigation {
+      &__entries {
+          margin-left: 10px;
+          position: relative;
+
+          .Border-Cover {
+              position: absolute;
+              width: 4px;
+              left: -2px;
+              bottom: 0px;
+              background-color: white;
+              overflow: hidden;
+              height: 16px;
+          }
+
+          .Border-Cover-Top {
+              @extend .Border-Cover;
+              top: 0px;
+          }
+
+          ul {
+              padding-left: 0px;
+              list-style: none;
+          }
+          
+          li {
+              font-size: 15px;
+              letter-spacing: 1px;
+              padding: 10px 0px;
+              border-left: 1px solid rgb(211, 209, 209);
+              
+              span {
+                  color: rgb(168, 168, 168);
+                  margin-left: 20px;
+              }
+              
+              &.current-entry {
+                  &:before {
+                      background-color: #06d4d4 !important; 
+                  }
+                  
+                  span {
+                      color: #06d4d4;
+                      font-weight: 500;
+                  }
+              }
+      
+              &:before {
+                  border-right:1px solid ;
+                  border-radius: 50%;
+                  background-color: #dce2e7 !important;
+                  color: #fff !important;
+                  display: inline-block;
+                  height: 10px;
+                  line-height: 9px;
+                  margin-left: -5px;
+                  margin-top: 4px;
+                  content: "";
+                  text-align: center;
+                  width: 10px;
+                  font-size: 1.3rem;
+                  font-weight: 700;
+              }
+
+          }
+          
+      }
+
+      &__header {
+          font-size: 16px;
+          font-weight: 500;
+          color: rgb(102, 102, 102);
+      }
+
+      
+  }
+
+
+
+}
+
+
+.Type-Selector {
+
+  &__name {
+      font-weight: 500;
+
+      &--margin-top {
+          margin-top: 20px;
+      }
+  }
+
+  &__option {
+      
+      &:first-of-type {
+          margin-right: 15px; 
+      }
+
+      &__label {
+          margin-left: 5px;
+      }
+  }
+
+  input[type="radio"] {
+      margin-top: -1px;
+      vertical-align: middle;
+  }
+}
+
+
+.Documentation-Switcher {
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  &__left {
+      text-align: left;
+
+      &__text {
+          margin-left: 10px;
+      }
+  }
+
+  &__right {
+      text-align: right;
+      &__text {
+          margin-right: 10px;
+      }
+  }
+}
+

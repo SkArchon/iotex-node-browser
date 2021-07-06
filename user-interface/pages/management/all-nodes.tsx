@@ -49,11 +49,9 @@ const AllNodes = () => {
       <div className="Nodes-Search-Criteria">
         <input type="checkbox" onChange={onShowPendingChange}/> Show Only Pending
       </div>
-      { nodeEntries.map((result: any) => {
+      { nodeEntries.map((result: any, index) => {
         return (
-          <>
-            <NetworkManagementEntry result={result} userAccount={userAccount} showApprove={true} showEdit={false} />
-          </>
+          <NetworkManagementEntry key={result.id} result={result} userAccount={userAccount} showApprove={true} showEdit={false} />
         )
       })}
       {!error && !loading && nodeEntries.length == 0 && 
