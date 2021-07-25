@@ -37,7 +37,7 @@ export class AppService {
     response.cookie("Authorization", JSON.stringify({ signedResult: signature, signedData: nonce }), {
       // secure: process.env.NODE_ENV !== "development",
       httpOnly: true,
-      maxAge: 1000 * 60 * 5,
+      maxAge: 1000 * 60 * 60 * 4,
       //maxAge: 1440000
     });
 
