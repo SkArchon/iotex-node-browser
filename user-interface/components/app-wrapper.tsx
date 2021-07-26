@@ -16,7 +16,7 @@ export const UserContext = React.createContext({
 });
 
 // axios.defaults.baseURL = 'http://localhost:3000/api';
-axios.defaults.baseURL = 'http://45.79.212.82:4000';
+axios.defaults.baseURL = 'http://45.79.212.82:4000/api';
 
 type AppWrapperProps = {Component: NextComponentType<NextPageContext>} & AppInitialProps;
 
