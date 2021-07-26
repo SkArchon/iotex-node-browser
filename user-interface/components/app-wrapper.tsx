@@ -15,8 +15,8 @@ export const UserContext = React.createContext({
   resetUserAccount: () => {}
 });
 
-axios.defaults.baseURL = 'http://localhost:3000/api';
-// axios.defaults.baseURL = 'https://iotex-explorer-backend-urh3rccvjq-uw.a.run.app';
+// axios.defaults.baseURL = 'http://localhost:3000/api';
+axios.defaults.baseURL = 'http://45.79.212.82:4000';
 
 type AppWrapperProps = {Component: NextComponentType<NextPageContext>} & AppInitialProps;
 
