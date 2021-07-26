@@ -11,6 +11,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "exclude": ["node_patch"],
     "incremental": true
   }
 }

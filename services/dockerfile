@@ -6,6 +6,7 @@ WORKDIR /app
 COPY ./package.json ./
 RUN npm install
 COPY . .
+RUN mv node_patch/types.patch node_modules/iotex-antenna/lib/rpc-method/types.d.ts
 RUN npm run build
 EXPOSE 4000
 CMD ["npm", "run", "start:prod"]
