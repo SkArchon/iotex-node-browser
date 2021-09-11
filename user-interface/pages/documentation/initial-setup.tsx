@@ -8,7 +8,6 @@ import md from 'raw-loader!./md/initial-setup/all.md';
 import { DocumentationComponents } from '../../components/documentation-components';
 
 const GettingStarted = () => {
-  const router = useRouter();
 
   return (
     <>

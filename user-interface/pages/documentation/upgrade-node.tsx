@@ -1,8 +1,8 @@
 import Head from 'next/head'
-import React from "react";
+import React, { useContext } from "react";
 import { useRouter } from 'next/router';
 import ReactMarkdown from 'react-markdown'
-import { DocumentationLayout } from '../../components/layouts/documentationLayout';
+import { DocumentationLayout, DocumentationOptionsContext } from '../../components/layouts/documentationLayout';
 import mdManual from 'raw-loader!./md/upgrade-node/manual-binaries.md';
 import mdDockerMainnet from 'raw-loader!./md/upgrade-node/docker_mainnet.md';
 import mdDockerTestnet from 'raw-loader!./md/upgrade-node/docker_testnet.md';
@@ -11,8 +11,7 @@ import { useLocalStorage } from '../../hooks/local-storage.hooks';
 import { DocumentationSwitcher } from '../../components/documentation-switcher';
 
 const GettingStarted = () => {
-  const [network, setNetwork] = useLocalStorage<string>("network", "mainnet");
-  const [deploymentType, setDeploymentType] = useLocalStorage<string>("deploymentType", "docker");
+  const { network, deploymentType } = useContext(DocumentationOptionsContext);
 
   const getMd = () => {
     switch (deploymentType) {
