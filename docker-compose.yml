@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  service:
+    image: skarchon/iotex-explorer-backend-ee
+    ports:
+      - 4000:4000
+    expose:
+      - 4000
+  user-interface:
+    image: skarchon/iotex-ui
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
