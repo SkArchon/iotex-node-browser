@@ -12,6 +12,9 @@ This module contains all of the frontend code, written using nextjs and react.
 
 
 
+## RUN
+You can simply run by running `docker-compose up` in the root directory
+
 ## TODO
 
 Will setup the public link for demonstration and update the readme within the next two days.
