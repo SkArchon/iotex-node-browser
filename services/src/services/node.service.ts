@@ -145,13 +145,14 @@ export class NodeService {
     return node;
   }
   
-  async findAll(requestBody: any, authorization: string = "{}") {
+  async findAll(allRequestBody: any, authorization: string = "{}") {
     const user = await this.mongoService.validateAndGetUser(authorization);
 
     if (!user.isAdmin) {
       throw "Normal users are not allowed to view pending requests";
     }
 
+    const requestBody = allRequestBody.rawData;
     const processedPage = (requestBody.page)
       ? (requestBody.page - 1) 
       : 0;
