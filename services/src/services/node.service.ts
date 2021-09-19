@@ -228,27 +228,27 @@ export class NodeService {
     return await saveObs$.toPromise();
   }
 
-  public async testSomething() {
-    const provider = new Provider(IOTEX_ACCOUNT_PRIVATE_KEY, IOTEX_ADDRESS); 
-    const web3 = new Web3(provider);
+  // public async testSomething() {
+  //   const provider = new Provider(IOTEX_ACCOUNT_PRIVATE_KEY, IOTEX_ADDRESS); 
+  //   const web3 = new Web3(provider);
 
-    const account = web3.eth.accounts.privateKeyToAccount(IOTEX_ACCOUNT_PRIVATE_KEY);
-    const gatewayBadgeContract = new web3.eth.Contract(IotexApiGatewayBadge.abi, CONTRACT_ADDRESS);
+  //   const account = web3.eth.accounts.privateKeyToAccount(IOTEX_ACCOUNT_PRIVATE_KEY);
+  //   const gatewayBadgeContract = new web3.eth.Contract(IotexApiGatewayBadge.abi, CONTRACT_ADDRESS);
 
-    const responseUpdate = await gatewayBadgeContract
-      .methods
-      .mintBadge('abcde', account.address)
-      .send( { from: account.address });
+  //   const responseUpdate = await gatewayBadgeContract
+  //     .methods
+  //     .mintBadge('abcde', account.address)
+  //     .send( { from: account.address });
 
-    console.log(responseUpdate);
+  //   console.log(responseUpdate);
 
-    const response = await gatewayBadgeContract
-      .methods
-      .getDetails()
-      .call({ from: account.address });
+  //   const response = await gatewayBadgeContract
+  //     .methods
+  //     .getDetails()
+  //     .call({ from: account.address });
 
-    console.log(response);
-    return response;
-  }
+  //   console.log(response);
+  //   return response;
+  // }
 
 }

@@ -32,9 +32,9 @@ export class NodeController {
     return await this.nodeService.processNodeApproval(approveRequest, "reject", request.cookies.Authorization);
   }
 
-  @Get("/test-something")
-  async testSomething() {
-    return await this.nodeService.testSomething();
-  }
+  // @Get("/test-something")
+  // async testSomething() {
+  //   return await this.nodeService.testSomething();
+  // }
   
 }
