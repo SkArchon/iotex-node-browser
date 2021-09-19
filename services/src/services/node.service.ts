@@ -24,7 +24,7 @@ import Antenna from "iotex-antenna";
 @Injectable()
 export class NodeService {
 
-  private readonly primarySourceAddress = 'api.iotex.one';
+  private readonly primarySourceAddress = 'https://api.iotex.one:443';
 
   constructor(
     @InjectModel(NodeUserAccount.name) private nodeUserAccount: Model<NodeUserAccountDocument>,
